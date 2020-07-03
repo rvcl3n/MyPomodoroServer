@@ -18,7 +18,6 @@ namespace MyPomodoroServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            //services.AddControllers();
             services.AddMvc(options => options.EnableEndpointRouting = false);
 
 
@@ -36,55 +35,12 @@ namespace MyPomodoroServer
 
             services.Configure<IISOptions>(options =>
             {
-
             });
-
-            /*services.ConfigureCors();
-
-            services.ConfigureIISIntegration();
-
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);*/
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
-            /*if (env.IsDevelopment())
-            {
-                app.UseDeveloperExceptionPage();
-            }
-
-           
-
-             app.UseHttpsRedirection();
-
-            app.UseCors(x => x
-               .AllowAnyOrigin()
-               .AllowAnyMethod()
-               .AllowAnyHeader()
-               //.AllowCredentials()
-               );
-
-            app.UseForwardedHeaders(new ForwardedHeadersOptions
-            {
-                ForwardedHeaders = ForwardedHeaders.All
-            });
-
-            app.UseRouting();
-
-
-
-            app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllers();
-                /*endpoints.MapGet("/", async context =>
-                {
-                    await context.Response.WriteAsync("Hello World!");
-                });*/
-            /*});
-
-            app.UseMvc();*/
-
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -111,18 +67,7 @@ namespace MyPomodoroServer
 
             app.UseStaticFiles();
 
-            /*app.UseEndpoints(endpoints =>
-            {
-                endpoints.MapControllerRoute(
-                    name : "default",
-                    pattern: 
-                    );
-            });*/
-
-//app.UseAuthentication();
-
             app.UseMvc();
-            }
-
         }
+    }
 }
