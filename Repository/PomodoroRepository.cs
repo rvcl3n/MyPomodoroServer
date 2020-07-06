@@ -16,11 +16,9 @@ namespace Repository
 
         public IEnumerable<Pomodoro> GetAllPomodoros()
         {
-            /*return FindAll()
-                .OrderBy(ow => ow.Name)
-                .ToList();*/
-
-            return null;
+            return FindAll()
+                .OrderBy(p => p.StartTime)
+                .ToList();
         }
 
         public Pomodoro GetPomodoroById(Guid pomodoroId)

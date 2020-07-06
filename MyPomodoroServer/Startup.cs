@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Contracts;
+using Entities;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
@@ -9,6 +11,8 @@ using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.EntityFrameworkCore;
+using Repository;
 
 namespace MyPomodoroServer
 {
@@ -30,6 +34,11 @@ namespace MyPomodoroServer
                     //.AllowCredentials()
                     );
             });
+
+            var connectionString = "Server=(localdb)\\ProjectsV13;Initial Catalog=MyPomodoroDB;Trusted_Connection=True;";
+            services.AddDbContext<RepositoryContext>(o => o.UseSqlServer(connectionString));
+
+            services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
 

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Entities.Models;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 namespace Entities
@@ -10,6 +11,11 @@ namespace Entities
         {
         }
 
-        //public DbSet<Pomodoro> Pomodoros { get; set; }
+        public DbSet<Pomodoro> Pomodoros { get; set; }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseSqlServer(@"Data Source=(localdb)\ProjectsV13;Initial Catalog=MyPomodoroDB;", b => b.MigrationsAssembly("Entities"));
+        }
     }
 }
