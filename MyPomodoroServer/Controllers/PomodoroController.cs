@@ -34,5 +34,30 @@ namespace MyPomodoroServer.Controllers
 
             return Ok(pomodoros);
         }
+
+        [HttpGet("{id}", Name = "PomodoroById")]
+        public IActionResult GetPomodoroById(Guid id)
+        {
+            try
+            {
+                var pomodoro = _repository.Pomodoro.GetPomodoroById(id);
+
+                if (pomodoro.Id.Equals(Guid.Empty))
+                {
+                    //_logger.LogError($"Owner with id: {id}, hasn't been found in db.");
+                    return NotFound();
+                }
+                else
+                {
+                    //_logger.LogInfo($"Returned owner with id: {id}");
+                    return Ok(pomodoro);
+                }
+            }
+            catch (Exception ex)
+            {
+               // _logger.LogError($"Something went wrong inside GetOwnerById action: {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }

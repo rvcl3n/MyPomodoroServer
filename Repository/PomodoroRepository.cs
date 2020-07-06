@@ -23,28 +23,26 @@ namespace Repository
 
         public Pomodoro GetPomodoroById(Guid pomodoroId)
         {
-            /*return FindByCondition(owner => owner.Id.Equals(ownerId)).ToList()
-                    .DefaultIfEmpty(new Owner())
-                    .FirstOrDefault();*/
-
-            return null;
+            return FindByCondition(pomodoro => pomodoro.Id.Equals(pomodoroId)).ToList()
+                    //.DefaultIfEmpty(new Pomodoro())
+                    .FirstOrDefault();
         }
 
         public void CreatePomodoro(Pomodoro pomodoro)
         {
-            /*owner.Id = Guid.NewGuid();
-            Create(owner);*/
+            pomodoro.Id = Guid.NewGuid();
+            Create(pomodoro);
         }
 
         public void UpdatePomodoro(Pomodoro dbPomodoro, Pomodoro pomodoro)
         {
-            /*dbOwner.Map(owner);
-            Update(dbOwner);*/
+            //dbOwner.Map(owner);
+            Update(pomodoro);
         }
 
         public void DeletePomodoro(Pomodoro pomodoro)
         {
-            //Delete(pomodoro);
+            Delete(pomodoro);
         }
     }
 }
