@@ -59,5 +59,25 @@ namespace MyPomodoroServer.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdatePomodoro(Guid id, [FromBody] Pomodoro pomodoro)
+        {
+            try
+            {
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid model object");
+                }
+
+                _repository.Pomodoro.Update(pomodoro);
+                _repository.Save();
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }
