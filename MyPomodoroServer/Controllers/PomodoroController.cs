@@ -44,18 +44,15 @@ namespace MyPomodoroServer.Controllers
 
                 if (pomodoro.Id.Equals(Guid.Empty))
                 {
-                    //_logger.LogError($"Owner with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
                 else
                 {
-                    //_logger.LogInfo($"Returned owner with id: {id}");
                     return Ok(pomodoro);
                 }
             }
             catch (Exception ex)
             {
-               // _logger.LogError($"Something went wrong inside GetOwnerById action: {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -73,6 +70,28 @@ namespace MyPomodoroServer.Controllers
                 _repository.Pomodoro.Update(pomodoro);
                 _repository.Save();
                 return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Deletemodoro(Guid id)
+        {
+            try
+            {
+                var pomodoro = _repository.Pomodoro.GetPomodoroById(id);
+                if (pomodoro.Id.Equals(Guid.Empty))
+                {
+                    return NotFound();
+                }
+
+                _repository.Pomodoro.Delete(pomodoro);
+                _repository.Save();
+
+                return NoContent();
             }
             catch (Exception ex)
             {
