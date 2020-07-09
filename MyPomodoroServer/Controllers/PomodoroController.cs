@@ -78,7 +78,7 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Deletemodoro(Guid id)
+        public IActionResult DeletePomodoro(Guid id)
         {
             try
             {
@@ -92,6 +92,32 @@ namespace MyPomodoroServer.Controllers
                 _repository.Save();
 
                 return NoContent();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
+        [HttpPost]
+        public IActionResult CreateOwner([FromBody] Pomodoro pomodoro)
+        {
+            try
+            {
+                if (pomodoro == null)
+                {
+                    return BadRequest("Pomodoro object is null");
+                }
+
+                if (!ModelState.IsValid)
+                {
+                    return BadRequest("Invalid model object");
+                }
+
+                _repository.Pomodoro.CreatePomodoro(pomodoro);
+                _repository.Save();
+
+                return CreatedAtRoute("PomodoroById", new { id = pomodoro.Id }, pomodoro);
             }
             catch (Exception ex)
             {
