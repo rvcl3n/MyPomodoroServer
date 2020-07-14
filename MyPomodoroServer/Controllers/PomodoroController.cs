@@ -4,7 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Entities.Models;
+using Entities.DTOs;
 using Contracts;
+using AutoMapper;
 
 namespace MyPomodoroServer.Controllers
 {
@@ -13,9 +15,11 @@ namespace MyPomodoroServer.Controllers
     public class PomodoroController : ControllerBase
     {
         private readonly IRepositoryWrapper _repository;
-        public PomodoroController(IRepositoryWrapper repository)
+        private readonly IMapper _mapper;
+        public PomodoroController(IRepositoryWrapper repository, IMapper mapper)
         {
             _repository = repository;
+            _mapper = mapper;
         }       
 
         [HttpGet]
@@ -100,11 +104,11 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateOwner([FromBody] Pomodoro pomodoro)
+        public IActionResult CreatePomodoro([FromBody] PomodoroDTO pomodoroDTO)
         {
             try
             {
-                if (pomodoro == null)
+                if (pomodoroDTO == null)
                 {
                     return BadRequest("Pomodoro object is null");
                 }
@@ -114,10 +118,13 @@ namespace MyPomodoroServer.Controllers
                     return BadRequest("Invalid model object");
                 }
 
+                var pomodoro = _mapper.Map<Pomodoro>(pomodoroDTO);
+                pomodoro.Id =Guid.NewGuid();
+
                 _repository.Pomodoro.CreatePomodoro(pomodoro);
                 _repository.Save();
 
-                return CreatedAtRoute("PomodoroById", new { id = pomodoro.Id }, pomodoro);
+                return Ok(pomodoro.Id);
             }
             catch (Exception ex)
             {

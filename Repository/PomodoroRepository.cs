@@ -30,7 +30,6 @@ namespace Repository
 
         public void CreatePomodoro(Pomodoro pomodoro)
         {
-            pomodoro.Id = Guid.NewGuid();
             Create(pomodoro);
         }
 

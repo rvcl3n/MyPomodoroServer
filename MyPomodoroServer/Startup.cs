@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using AutoMapper;
 using Contracts;
 using Entities;
 using Microsoft.AspNetCore.Builder;
@@ -41,6 +42,7 @@ namespace MyPomodoroServer
             services.AddScoped<IRepositoryWrapper, RepositoryWrapper>();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_3_0);
+            services.AddAutoMapper(typeof(Startup));
 
             services.Configure<IISOptions>(options =>
             {
