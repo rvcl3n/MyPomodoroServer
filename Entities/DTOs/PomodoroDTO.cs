@@ -8,8 +8,6 @@ namespace Entities.DTOs
     {
         public string StartTime { get; set; }
 
-        public string FinishTime { get; set; }
-
         public string Description { get; set; }
     }
 }
