@@ -7,6 +7,7 @@ namespace Repository
     {
         private RepositoryContext _repoContext;
         private IPomodoroRepository _pomodoro;
+        private IUserRepository _user;
 
         public IPomodoroRepository Pomodoro
         {
@@ -18,6 +19,19 @@ namespace Repository
                 }
 
                 return _pomodoro;
+            }
+        }
+
+        public IUserRepository User
+        {
+            get
+            {
+                if (_user == null)
+                {
+                    _user = new UserRepository(_repoContext);
+                }
+
+                return _user;
             }
         }
 
