@@ -7,7 +7,7 @@ using System.Text;
 namespace Entities.Models
 {
     [Table("pomodoro")]
-    public class Pomodoro
+    public class Pomodoro : IEntity
     {
         [Key]
         [Column("PomodoroId")]
@@ -18,5 +18,7 @@ namespace Entities.Models
         public string FinishTime { get; set; }
 
         public string Description { get; set; }
+
+        public User User { get; set; }
     }
 }
