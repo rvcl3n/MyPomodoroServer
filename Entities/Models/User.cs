@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text;
 
 namespace Entities.Models
 {
@@ -22,8 +21,6 @@ namespace Entities.Models
         public string LastName { get; set; }
 
         public string FullName { get; set; }
-
-        public string FisrtName { get; set; }
 
         public string PhotoURL { get; set; }
 
