@@ -26,6 +26,7 @@ namespace Entities
             modelBuilder.Entity<User>()
                 .HasMany(g => g.Pomodoros)
                 .WithOne(e => e.User)
+                .HasForeignKey(e => e.UserId)
                 .OnDelete(DeleteBehavior.SetNull);
         }
     }

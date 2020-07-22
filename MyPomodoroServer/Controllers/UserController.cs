@@ -131,6 +131,8 @@ namespace MyPomodoroServer.Controllers
                 if (user == null)
                 {
                     user = _mapper.Map<User>(loginUser);
+                    user.Id = Guid.NewGuid();
+
                     _repository.User.CreateUser(user);
                     _repository.Save();
                 }

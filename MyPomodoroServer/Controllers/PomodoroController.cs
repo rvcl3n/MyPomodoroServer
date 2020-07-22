@@ -27,14 +27,13 @@ namespace MyPomodoroServer.Controllers
         {
             var pomodoros = _repository.Pomodoro.GetAllPomodoros();
 
-            /*var pomodoros = new List<Pomodoro>() {
-                new Pomodoro(){
-                    Id=new Guid(),
-                    StartTime="Start",
-                    FinishTime="Finish",
-                    Description="SomeText"
-                }
-            };*/
+            return Ok(pomodoros);
+        }
+
+        [HttpGet("getbyuser/{id}", Name ="GetByUser")]
+        public IActionResult GetUsersPomodoros(string id)
+        {
+            var pomodoros = _repository.Pomodoro.GetAllPomodorosByUser(id);
 
             return Ok(pomodoros);
         }
@@ -103,8 +102,8 @@ namespace MyPomodoroServer.Controllers
             }
         }
 
-        [HttpPost]
-        public IActionResult CreatePomodoro([FromBody] PomodoroDTO pomodoroDTO)
+        [HttpPost("{id}")]
+        public IActionResult CreatePomodoro(string id, [FromBody] PomodoroDTO pomodoroDTO)
         {
             try
             {
@@ -121,7 +120,11 @@ namespace MyPomodoroServer.Controllers
                 var pomodoro = _mapper.Map<Pomodoro>(pomodoroDTO);
                 pomodoro.Id =Guid.NewGuid();
 
+                var currentsUser = _repository.User.GetUserByExternalId(id);
+                pomodoro.UserId = currentsUser.Id;
+
                 _repository.Pomodoro.CreatePomodoro(pomodoro);
+
                 _repository.Save();
 
                 return Ok(pomodoro.Id);

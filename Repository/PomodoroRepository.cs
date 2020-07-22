@@ -21,6 +21,13 @@ namespace Repository
                 .ToList();
         }
 
+        public IEnumerable<Pomodoro> GetAllPomodorosByUser(string externalId)
+        {
+            return FindByCondition(pomodoro => pomodoro.User.ExternalId == externalId)
+                .OrderBy(p => p.StartTime)
+                .ToList();
+        }
+
         public Pomodoro GetPomodoroById(Guid pomodoroId)
         {
             return FindByCondition(pomodoro => pomodoro.Id.Equals(pomodoroId)).ToList()
