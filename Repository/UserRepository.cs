@@ -28,6 +28,12 @@ namespace Repository
                     .FirstOrDefault();
         }
 
+        public User GetUserByExternalId(string externalId)
+        {
+            return FindByCondition(user => user.ExternalId.Equals(externalId)).ToList()
+                    .FirstOrDefault();
+        }
+
         public void CreateUser(User user)
         {
             Create(user);

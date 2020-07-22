@@ -121,5 +121,26 @@ namespace MyPomodoroServer.Controllers
                 return StatusCode(500, "Internal server error");
             }
         }
+
+        [HttpPost("login")]
+        public IActionResult Login([FromBody] UserDTO loginUser)
+        {
+            try
+            {
+                var user = _repository.User.GetUserByExternalId(loginUser.ExternalId);
+                if (user == null)
+                {
+                    user = _mapper.Map<User>(loginUser);
+                    _repository.User.CreateUser(user);
+                    _repository.Save();
+                }
+                
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
     }
 }

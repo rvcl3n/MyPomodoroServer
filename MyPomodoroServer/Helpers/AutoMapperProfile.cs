@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Entities.Models;
 using Entities.DTOs;
-
+using System;
 
 namespace MyPomodoroServer.Helpers
 {
@@ -11,6 +11,8 @@ namespace MyPomodoroServer.Helpers
         {
             CreateMap<Pomodoro, PomodoroDTO>();
             CreateMap<PomodoroDTO, Pomodoro>();
+            CreateMap<UserDTO, User>()
+                .ForMember(dest => dest.Id, opt => opt.MapFrom(scr => Guid.NewGuid()));
         }
     }
 }
