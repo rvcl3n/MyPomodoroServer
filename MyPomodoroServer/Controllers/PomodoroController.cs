@@ -61,7 +61,7 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePomodoro(Guid id, [FromBody] Pomodoro pomodoro)
+        public IActionResult UpdatePomodoro(Guid id, [FromBody] PomodoroDTO pomodoroDto)
         {
             try
             {
@@ -69,6 +69,17 @@ namespace MyPomodoroServer.Controllers
                 {
                     return BadRequest("Invalid model object");
                 }
+
+
+                var pomodoro = _repository.Pomodoro.GetPomodoroById(id);
+
+                //ToDo: Map
+
+                pomodoro.Id = id;
+                pomodoro.FinishTime = pomodoroDto.FinishTime;
+                pomodoro.Description = pomodoroDto.Description != "" ? pomodoroDto.Description : pomodoro.Description;
+
+                //
 
                 _repository.Pomodoro.Update(pomodoro);
                 _repository.Save();
