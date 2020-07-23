@@ -54,6 +54,28 @@ namespace MyPomodoroServer.Controllers
             }
         }
 
+        [HttpGet("external/{id}", Name = "UserByExternalId")]
+        public IActionResult GetUSerExternalById(string id)
+        {
+            try
+            {
+                var user = _repository.User.GetUserByExternalId(id);
+
+                if (user.Id.Equals(Guid.Empty))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    return Ok(user);
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, "Internal server error");
+            }
+        }
+
         [HttpPut("{id}")]
         public IActionResult UpdateUser(Guid id, [FromBody] User user)
         {
