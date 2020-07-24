@@ -3,20 +3,22 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30204.135
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MyPomodoroServer", "MyPomodoroServer\MyPomodoroServer.csproj", "{B7670154-7233-448A-990D-E427A3C60DE8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MyPomodoroServer", "MyPomodoroServer\MyPomodoroServer.csproj", "{B7670154-7233-448A-990D-E427A3C60DE8}"
 	ProjectSection(ProjectDependencies) = postProject
 		{45ABD642-10EB-42EA-8DEC-43E065A0F013} = {45ABD642-10EB-42EA-8DEC-43E065A0F013}
 		{53B8EF43-8317-4EED-BFF0-90B382628B90} = {53B8EF43-8317-4EED-BFF0-90B382628B90}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Repository", "Repository\Repository.csproj", "{45ABD642-10EB-42EA-8DEC-43E065A0F013}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Repository", "Repository\Repository.csproj", "{45ABD642-10EB-42EA-8DEC-43E065A0F013}"
 	ProjectSection(ProjectDependencies) = postProject
 		{53B8EF43-8317-4EED-BFF0-90B382628B90} = {53B8EF43-8317-4EED-BFF0-90B382628B90}
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Contracts", "Contracts\Contracts.csproj", "{53B8EF43-8317-4EED-BFF0-90B382628B90}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Contracts", "Contracts\Contracts.csproj", "{53B8EF43-8317-4EED-BFF0-90B382628B90}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Entities", "Entities\Entities.csproj", "{20C553C2-303E-41F6-99F3-0973ABFDA451}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Entities", "Entities\Entities.csproj", "{20C553C2-303E-41F6-99F3-0973ABFDA451}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LoggerService", "LoggerService\LoggerService.csproj", "{04A6DC60-A0B3-4ED8-A3C0-48D707F2CE79}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -40,6 +42,10 @@ Global
 		{20C553C2-303E-41F6-99F3-0973ABFDA451}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{20C553C2-303E-41F6-99F3-0973ABFDA451}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{20C553C2-303E-41F6-99F3-0973ABFDA451}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04A6DC60-A0B3-4ED8-A3C0-48D707F2CE79}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04A6DC60-A0B3-4ED8-A3C0-48D707F2CE79}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04A6DC60-A0B3-4ED8-A3C0-48D707F2CE79}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04A6DC60-A0B3-4ED8-A3C0-48D707F2CE79}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
