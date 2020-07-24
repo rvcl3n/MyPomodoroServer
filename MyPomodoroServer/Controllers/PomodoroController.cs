@@ -16,26 +16,48 @@ namespace MyPomodoroServer.Controllers
     {
         private readonly IRepositoryWrapper _repository;
         private readonly IMapper _mapper;
-        public PomodoroController(IRepositoryWrapper repository, IMapper mapper)
+        private readonly ILoggerManager _logger;
+        public PomodoroController(IRepositoryWrapper repository, IMapper mapper, ILoggerManager logger)
         {
             _repository = repository;
             _mapper = mapper;
+            _logger = logger;
         }       
 
         [HttpGet]
         public IActionResult GetAllPomodoros()
         {
-            var pomodoros = _repository.Pomodoro.GetAllPomodoros();
+            try
+            {
+                var pomodoros = _repository.Pomodoro.GetAllPomodoros();
 
-            return Ok(pomodoros);
+                _logger.LogInfo($"Returned all users pomodoros from database.");
+
+                return Ok(pomodoros);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInfo($"Something went wrong inside GetAllPomodoros action. {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("getbyuser/{id}", Name ="GetByUser")]
         public IActionResult GetUsersPomodoros(string id)
         {
-            var pomodoros = _repository.Pomodoro.GetAllPomodorosByUser(id);
+            try
+            {
+                var pomodoros = _repository.Pomodoro.GetAllPomodorosByUser(id);
 
-            return Ok(pomodoros);
+                _logger.LogInfo($"Returned all users pomodoros from database.");
+
+                return Ok(pomodoros);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInfo($"Something went wrong inside GetUsersPomodoros action. {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("{id}", Name = "PomodoroById")]
@@ -47,15 +69,18 @@ namespace MyPomodoroServer.Controllers
 
                 if (pomodoro.Id.Equals(Guid.Empty))
                 {
+                    _logger.LogError($"Pomodoro with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
                 else
                 {
+                    _logger.LogInfo($"Returned pomodoro with id: {id}");
                     return Ok(pomodoro);
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside GetPomodoroById action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -67,6 +92,7 @@ namespace MyPomodoroServer.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    _logger.LogError("Invalid pomodoro object sent from a client.");
                     return BadRequest("Invalid model object");
                 }
 
@@ -87,6 +113,7 @@ namespace MyPomodoroServer.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside UpdatePomodoro action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -99,6 +126,7 @@ namespace MyPomodoroServer.Controllers
                 var pomodoro = _repository.Pomodoro.GetPomodoroById(id);
                 if (pomodoro.Id.Equals(Guid.Empty))
                 {
+                    _logger.LogError($"Pomodoro with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
 
@@ -109,6 +137,7 @@ namespace MyPomodoroServer.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside DeletePomodoro action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -120,11 +149,13 @@ namespace MyPomodoroServer.Controllers
             {
                 if (pomodoroDTO == null)
                 {
+                    _logger.LogError("Owner pomodoro sent from client is null.");
                     return BadRequest("Pomodoro object is null");
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    _logger.LogError("Invalid pomodoro object sent from a client.");
                     return BadRequest("Invalid model object");
                 }
 
@@ -138,10 +169,13 @@ namespace MyPomodoroServer.Controllers
 
                 _repository.Save();
 
+                _logger.LogInfo($"Created a Pomodoro with id: {pomodoro.Id}");
+
                 return Ok(pomodoro.Id);
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside CreatePomodoro action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
