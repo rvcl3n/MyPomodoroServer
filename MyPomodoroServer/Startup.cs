@@ -14,6 +14,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Repository;
+using LoggerService;
 
 namespace MyPomodoroServer
 {
@@ -35,6 +36,8 @@ namespace MyPomodoroServer
                     //.AllowCredentials()
                     );
             });
+
+            services.AddSingleton<ILoggerManager, LoggerManager>();
 
             var connectionString = "Server=(localdb)\\ProjectsV13;Initial Catalog=MyPomodoroDB;Trusted_Connection=True;";
             services.AddDbContext<RepositoryContext>(o => o.UseSqlServer(connectionString));
