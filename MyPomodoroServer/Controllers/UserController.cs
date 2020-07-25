@@ -17,11 +17,13 @@ namespace MyPomodoroServer.Controllers
     {
         private readonly IRepositoryWrapper _repository;
         private readonly IMapper _mapper;
+        private readonly ILoggerManager _logger;
 
-        public UserController(IRepositoryWrapper repository, IMapper mapper)
+        public UserController(IRepositoryWrapper repository, IMapper mapper, ILoggerManager logger)
         {
             _repository = repository;
             _mapper = mapper;
+            _logger = logger;
         }
 
         [HttpGet]
@@ -41,15 +43,18 @@ namespace MyPomodoroServer.Controllers
 
                 if (user.Id.Equals(Guid.Empty))
                 {
+                    _logger.LogError($"User with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
                 else
                 {
+                    _logger.LogInfo($"Returned user with id: {id}");
                     return Ok(user);
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside GetUSerById action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
