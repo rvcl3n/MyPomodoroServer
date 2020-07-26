@@ -29,9 +29,19 @@ namespace MyPomodoroServer.Controllers
         [HttpGet]
         public IActionResult GetAllUsers()
         {
-            var users = _repository.User.GetAllUsers();
+            try
+            {
+                var users = _repository.User.GetAllUsers();
 
-            return Ok(users);
+                _logger.LogInfo($"Returned all users from database.");
+
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogInfo($"Something went wrong inside GetAllUsers action. {ex.Message}");
+                return StatusCode(500, "Internal server error");
+            }
         }
 
         [HttpGet("{id}", Name = "UserById")]
@@ -68,15 +78,18 @@ namespace MyPomodoroServer.Controllers
 
                 if (user.Id.Equals(Guid.Empty))
                 {
+                    _logger.LogError($"User with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
                 else
                 {
+                    _logger.LogInfo($"Returned user with External id: {id}");
                     return Ok(user);
                 }
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside GetUSerExternalById action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -88,6 +101,7 @@ namespace MyPomodoroServer.Controllers
             {
                 if (!ModelState.IsValid)
                 {
+                    _logger.LogError("Invalid user object sent from a client.");
                     return BadRequest("Invalid model object");
                 }
 
@@ -97,6 +111,7 @@ namespace MyPomodoroServer.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside UpdateUser action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -109,6 +124,7 @@ namespace MyPomodoroServer.Controllers
                 var user = _repository.User.GetUserById(id);
                 if (user.Id.Equals(Guid.Empty))
                 {
+                    _logger.LogError($"User with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
 
@@ -119,6 +135,7 @@ namespace MyPomodoroServer.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside DeleteUser action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -130,11 +147,13 @@ namespace MyPomodoroServer.Controllers
             {
                 if (user == null)
                 {
+                    _logger.LogError("Owner user sent from client is null.");
                     return BadRequest("User object is null");
                 }
 
                 if (!ModelState.IsValid)
                 {
+                    _logger.LogError("Invalid user object sent from a client.");
                     return BadRequest("Invalid model object");
                 }
 
@@ -145,6 +164,7 @@ namespace MyPomodoroServer.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside CreateUser action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
@@ -168,6 +188,7 @@ namespace MyPomodoroServer.Controllers
             }
             catch (Exception ex)
             {
+                _logger.LogError($"Something went wrong inside Login action. {ex.Message}");
                 return StatusCode(500, "Internal server error");
             }
         }
