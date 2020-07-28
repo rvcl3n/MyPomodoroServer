@@ -25,11 +25,11 @@ namespace MyPomodoroServer.Controllers
         }       
 
         [HttpGet]
-        public IActionResult GetAllPomodoros()
+        public async Task<IActionResult> GetAllPomodoros()
         {
             try
             {
-                var pomodoros = _repository.Pomodoro.GetAllPomodoros();
+                var pomodoros = await _repository.Pomodoro.GetAllPomodoros();
 
                 _logger.LogInfo($"Returned all users pomodoros from database.");
 

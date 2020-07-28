@@ -4,6 +4,8 @@ using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -14,11 +16,11 @@ namespace Repository
         {
         }
 
-        public IEnumerable<Pomodoro> GetAllPomodoros()
+        public async Task<IEnumerable<Pomodoro>> GetAllPomodoros()
         {
-            return FindAll()
+            return await FindAll()
                 .OrderBy(p => p.StartTime)
-                .ToList();
+                .ToListAsync();
         }
 
         public IEnumerable<Pomodoro> GetAllPomodorosByUser(string externalId)

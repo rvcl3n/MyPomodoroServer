@@ -1,12 +1,13 @@
 ﻿using Entities.Models;
 using System;
+using System.Threading.Tasks;
 using System.Collections.Generic;
 
 namespace Contracts
 {
     public interface IPomodoroRepository : IRepositoryBase<Pomodoro>
     {
-        IEnumerable<Pomodoro> GetAllPomodoros();
+        Task<IEnumerable<Pomodoro>> GetAllPomodoros();
 
         IEnumerable<Pomodoro> GetAllPomodorosByUser(string externalId);
         Pomodoro GetPomodoroById(Guid pomodoroId);
