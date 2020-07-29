@@ -1,9 +1,11 @@
-﻿namespace Contracts
+﻿using System.Threading.Tasks;
+
+namespace Contracts
 {
     public interface IRepositoryWrapper
     {
         IPomodoroRepository Pomodoro { get; }
         IUserRepository User { get; }
-        void Save();
+        Task SaveAsync();
     }
 }

@@ -23,18 +23,18 @@ namespace Repository
                 .ToListAsync();
         }
 
-        public IEnumerable<Pomodoro> GetAllPomodorosByUser(string externalId)
+        public async Task<IEnumerable<Pomodoro>> GetAllPomodorosByUser(string externalId)
         {
-            return FindByCondition(pomodoro => pomodoro.User.ExternalId == externalId)
+            return await FindByCondition(pomodoro => pomodoro.User.ExternalId == externalId)
                 .OrderBy(p => p.StartTime)
-                .ToList();
+                .ToListAsync();
         }
 
-        public Pomodoro GetPomodoroById(Guid pomodoroId)
+        public async Task<Pomodoro> GetPomodoroById(Guid pomodoroId)
         {
-            return FindByCondition(pomodoro => pomodoro.Id.Equals(pomodoroId)).ToList()
+            return await FindByCondition(pomodoro => pomodoro.Id.Equals(pomodoroId))
                     //.DefaultIfEmpty(new Pomodoro())
-                    .FirstOrDefault();
+                    .FirstOrDefaultAsync();
         }
 
         public void CreatePomodoro(Pomodoro pomodoro)

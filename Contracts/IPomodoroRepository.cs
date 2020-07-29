@@ -9,8 +9,8 @@ namespace Contracts
     {
         Task<IEnumerable<Pomodoro>> GetAllPomodoros();
 
-        IEnumerable<Pomodoro> GetAllPomodorosByUser(string externalId);
-        Pomodoro GetPomodoroById(Guid pomodoroId);
+        Task<IEnumerable<Pomodoro>> GetAllPomodorosByUser(string externalId);
+        Task<Pomodoro> GetPomodoroById(Guid pomodoroId);
         void CreatePomodoro(Pomodoro pomodoro);
         void UpdatePomodoro(Pomodoro dbPomodoro, Pomodoro pomodoro);
         void DeletePomodoro(Pomodoro pomodoro);

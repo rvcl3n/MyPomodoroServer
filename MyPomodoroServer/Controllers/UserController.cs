@@ -27,11 +27,11 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetAllUsers()
+        public async Task<IActionResult> GetAllUsers()
         {
             try
             {
-                var users = _repository.User.GetAllUsers();
+                var users = await _repository.User.GetAllUsers();
 
                 _logger.LogInfo($"Returned all users from database.");
 
@@ -45,11 +45,11 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpGet("{id}", Name = "UserById")]
-        public IActionResult GetUSerById(Guid id)
+        public async Task<IActionResult> GetUSerById(Guid id)
         {
             try
             {
-                var user = _repository.User.GetUserById(id);
+                var user = await _repository.User.GetUserById(id);
 
                 if (user.Id.Equals(Guid.Empty))
                 {
@@ -70,11 +70,11 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpGet("external/{id}", Name = "UserByExternalId")]
-        public IActionResult GetUSerExternalById(string id)
+        public async Task<IActionResult> GetUSerExternalById(string id)
         {
             try
             {
-                var user = _repository.User.GetUserByExternalId(id);
+                var user = await _repository.User.GetUserByExternalId(id);
 
                 if (user.Id.Equals(Guid.Empty))
                 {
@@ -95,7 +95,7 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdateUser(Guid id, [FromBody] User user)
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] User user)
         {
             try
             {
@@ -105,8 +105,8 @@ namespace MyPomodoroServer.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                _repository.User.Update(user);
-                _repository.Save();
+                 _repository.User.Update(user);
+                await _repository.SaveAsync();
                 return Ok();
             }
             catch (Exception ex)
@@ -117,19 +117,19 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeleteUser(Guid id)
+        public async Task<IActionResult> DeleteUser(Guid id)
         {
             try
             {
-                var user = _repository.User.GetUserById(id);
+                var user = await _repository.User.GetUserById(id);
                 if (user.Id.Equals(Guid.Empty))
                 {
                     _logger.LogError($"User with id: {id}, hasn't been found in db.");
                     return NotFound();
                 }
 
-                _repository.User.Delete(user);
-                _repository.Save();
+                 _repository.User.Delete(user);
+                await _repository.SaveAsync();
 
                 return NoContent();
             }
@@ -141,7 +141,7 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpPost]
-        public IActionResult CreateUser([FromBody] User user)
+        public async Task<IActionResult> CreateUser([FromBody] User user)
         {
             try
             {
@@ -158,7 +158,7 @@ namespace MyPomodoroServer.Controllers
                 }
 
                 _repository.User.CreateUser(user);
-                _repository.Save();
+                await _repository.SaveAsync();
 
                 return Ok(user.Id);
             }
@@ -170,18 +170,18 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserDTO loginUser)
+        public async Task<IActionResult> Login([FromBody] UserDTO loginUser)
         {
             try
             {
-                var user = _repository.User.GetUserByExternalId(loginUser.ExternalId);
+                var user = await _repository.User.GetUserByExternalId(loginUser.ExternalId);
                 if (user == null)
                 {
                     user = _mapper.Map<User>(loginUser);
                     user.Id = Guid.NewGuid();
 
                     _repository.User.CreateUser(user);
-                    _repository.Save();
+                    await _repository.SaveAsync();
                 }
                 
                 return Ok();

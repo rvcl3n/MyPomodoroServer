@@ -4,7 +4,8 @@ using Entities.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Repository
 {
@@ -15,23 +16,23 @@ namespace Repository
         {
         }
 
-        public IEnumerable<User> GetAllUsers()
+        public async Task<IEnumerable<User>> GetAllUsers()
         {
-            return FindAll()
+            return await FindAll()
                 .OrderBy(p => p.Email)
-                .ToList();
+                .ToListAsync();
         }
 
-        public User GetUserById(Guid userId)
+        public async Task<User> GetUserById(Guid userId)
         {
-            return FindByCondition(user => user.Id.Equals(userId)).ToList()
-                    .FirstOrDefault();
+            return await FindByCondition(user => user.Id.Equals(userId))
+                    .FirstOrDefaultAsync();
         }
 
-        public User GetUserByExternalId(string externalId)
+        public async Task<User> GetUserByExternalId(string externalId)
         {
-            return FindByCondition(user => user.ExternalId.Equals(externalId)).ToList()
-                    .FirstOrDefault();
+            return await FindByCondition(user => user.ExternalId.Equals(externalId))
+                    .FirstOrDefaultAsync();
         }
 
         public void CreateUser(User user)

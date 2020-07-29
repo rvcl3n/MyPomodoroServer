@@ -43,11 +43,11 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpGet("getbyuser/{id}", Name ="GetByUser")]
-        public IActionResult GetUsersPomodoros(string id)
+        public async Task<IActionResult> GetUsersPomodoros(string id)
         {
             try
             {
-                var pomodoros = _repository.Pomodoro.GetAllPomodorosByUser(id);
+                var pomodoros = await _repository.Pomodoro.GetAllPomodorosByUser(id);
 
                 _logger.LogInfo($"Returned all users pomodoros from database.");
 
@@ -61,11 +61,11 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpGet("{id}", Name = "PomodoroById")]
-        public IActionResult GetPomodoroById(Guid id)
+        public async Task<IActionResult> GetPomodoroById(Guid id)
         {
             try
             {
-                var pomodoro = _repository.Pomodoro.GetPomodoroById(id);
+                var pomodoro = await _repository.Pomodoro.GetPomodoroById(id);
 
                 if (pomodoro.Id.Equals(Guid.Empty))
                 {
@@ -86,7 +86,7 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult UpdatePomodoro(Guid id, [FromBody] PomodoroDTO pomodoroDto)
+        public async Task<IActionResult> UpdatePomodoro(Guid id, [FromBody] PomodoroDTO pomodoroDto)
         {
             try
             {
@@ -97,7 +97,7 @@ namespace MyPomodoroServer.Controllers
                 }
 
 
-                var pomodoro = _repository.Pomodoro.GetPomodoroById(id);
+                var pomodoro = await _repository.Pomodoro.GetPomodoroById(id);
 
                 //ToDo: Map
 
@@ -108,7 +108,7 @@ namespace MyPomodoroServer.Controllers
                 //
 
                 _repository.Pomodoro.Update(pomodoro);
-                _repository.Save();
+                await _repository.SaveAsync();
                 return Ok();
             }
             catch (Exception ex)
@@ -119,11 +119,11 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult DeletePomodoro(Guid id)
+        public async Task<IActionResult> DeletePomodoro(Guid id)
         {
             try
             {
-                var pomodoro = _repository.Pomodoro.GetPomodoroById(id);
+                var pomodoro = await _repository.Pomodoro.GetPomodoroById(id);
                 if (pomodoro.Id.Equals(Guid.Empty))
                 {
                     _logger.LogError($"Pomodoro with id: {id}, hasn't been found in db.");
@@ -131,7 +131,7 @@ namespace MyPomodoroServer.Controllers
                 }
 
                 _repository.Pomodoro.Delete(pomodoro);
-                _repository.Save();
+                await _repository.SaveAsync();
 
                 return NoContent();
             }
@@ -143,7 +143,7 @@ namespace MyPomodoroServer.Controllers
         }
 
         [HttpPost("{id}")]
-        public IActionResult CreatePomodoro(string id, [FromBody] PomodoroDTO pomodoroDTO)
+        public async Task<IActionResult> CreatePomodoro(string id, [FromBody] PomodoroDTO pomodoroDTO)
         {
             try
             {
@@ -162,12 +162,12 @@ namespace MyPomodoroServer.Controllers
                 var pomodoro = _mapper.Map<Pomodoro>(pomodoroDTO);
                 pomodoro.Id =Guid.NewGuid();
 
-                var currentsUser = _repository.User.GetUserByExternalId(id);
+                var currentsUser = await _repository.User.GetUserByExternalId(id);
                 pomodoro.UserId = currentsUser.Id;
 
                 _repository.Pomodoro.CreatePomodoro(pomodoro);
 
-                _repository.Save();
+                await _repository.SaveAsync();
 
                 _logger.LogInfo($"Created a Pomodoro with id: {pomodoro.Id}");
 
