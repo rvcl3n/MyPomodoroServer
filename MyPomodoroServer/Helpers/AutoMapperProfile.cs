@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using Entities.Models;
 using Entities.DTOs;
-using System;
 
 namespace MyPomodoroServer.Helpers
 {

@@ -1,6 +1,5 @@
 ﻿using Entities.Models;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 namespace Entities
 {
