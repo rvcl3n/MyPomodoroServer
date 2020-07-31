@@ -37,20 +37,20 @@ namespace Repository
                     .FirstOrDefaultAsync();
         }
 
-        public void CreatePomodoro(Pomodoro pomodoro)
+        public async Task CreatePomodoro(Pomodoro pomodoro)
         {
-            Create(pomodoro);
+            await Create(pomodoro);
         }
 
-        public void UpdatePomodoro(Pomodoro dbPomodoro, Pomodoro pomodoro)
+        public async Task UpdatePomodoro(Pomodoro dbPomodoro, Pomodoro pomodoro)
         {
             //dbOwner.Map(owner);
-            Update(pomodoro);
+            await Update(pomodoro);
         }
 
-        public void DeletePomodoro(Pomodoro pomodoro)
+        public async Task DeletePomodoro(Pomodoro pomodoro)
         {
-            Delete(pomodoro);
+            await Delete(pomodoro);
         }
     }
 }

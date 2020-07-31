@@ -10,8 +10,8 @@ namespace Contracts
         Task<IEnumerable<User>> GetAllUsers();
         Task<User> GetUserById(Guid UserId);
         Task<User> GetUserByExternalId(string externalId);
-        void CreateUser(User user);
-        void UpdateUser(User dbUser, User user);
-        void DeleteUser(User user);
+        Task CreateUser(User user);
+        Task UpdateUser(User dbUser, User user);
+        Task DeleteUser(User user);
     }
 }

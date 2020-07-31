@@ -102,7 +102,7 @@ namespace MyPomodoroServer.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                 _repository.User.Update(user);
+                await _repository.User.Update(user);
                 await _repository.SaveAsync();
                 return Ok();
             }
@@ -125,7 +125,7 @@ namespace MyPomodoroServer.Controllers
                     return NotFound();
                 }
 
-                 _repository.User.Delete(user);
+                await _repository.User.Delete(user);
                 await _repository.SaveAsync();
 
                 return NoContent();
@@ -154,7 +154,7 @@ namespace MyPomodoroServer.Controllers
                     return BadRequest("Invalid model object");
                 }
 
-                _repository.User.CreateUser(user);
+                await _repository.User.CreateUser(user);
                 await _repository.SaveAsync();
 
                 return Ok(user.Id);
@@ -177,7 +177,7 @@ namespace MyPomodoroServer.Controllers
                     user = _mapper.Map<User>(loginUser);
                     user.Id = Guid.NewGuid();
 
-                    _repository.User.CreateUser(user);
+                    await _repository.User.CreateUser(user);
                     await _repository.SaveAsync();
                 }
                 

@@ -11,8 +11,8 @@ namespace Contracts
 
         Task<IEnumerable<Pomodoro>> GetAllPomodorosByUser(string externalId);
         Task<Pomodoro> GetPomodoroById(Guid pomodoroId);
-        void CreatePomodoro(Pomodoro pomodoro);
-        void UpdatePomodoro(Pomodoro dbPomodoro, Pomodoro pomodoro);
-        void DeletePomodoro(Pomodoro pomodoro);
+        Task CreatePomodoro(Pomodoro pomodoro);
+        Task UpdatePomodoro(Pomodoro dbPomodoro, Pomodoro pomodoro);
+        Task DeletePomodoro(Pomodoro pomodoro);
     }
 }

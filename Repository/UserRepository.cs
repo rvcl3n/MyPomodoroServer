@@ -35,19 +35,19 @@ namespace Repository
                     .FirstOrDefaultAsync();
         }
 
-        public void CreateUser(User user)
+        public async Task CreateUser(User user)
         {
-            Create(user);
+            await Create(user);
         }
 
-        public void UpdateUser(User dbUser, User user)
+        public async Task UpdateUser(User dbUser, User user)
         {
-            Update(user);
+            await Update(user);
         }
 
-        public void DeleteUser(User user)
+        public async Task DeleteUser(User user)
         {
-            Delete(user);
+            await Delete(user);
         }
     }
 }
