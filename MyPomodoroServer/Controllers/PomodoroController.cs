@@ -105,7 +105,7 @@ namespace MyPomodoroServer.Controllers
 
                 //
 
-                _repository.Pomodoro.Update(pomodoro);
+                await _repository.Pomodoro.Update(pomodoro);
                 await _repository.SaveAsync();
                 return Ok();
             }
@@ -128,7 +128,7 @@ namespace MyPomodoroServer.Controllers
                     return NotFound();
                 }
 
-                _repository.Pomodoro.Delete(pomodoro);
+                await _repository.Pomodoro.Delete(pomodoro);
                 await _repository.SaveAsync();
 
                 return NoContent();
@@ -163,7 +163,7 @@ namespace MyPomodoroServer.Controllers
                 var currentsUser = await _repository.User.GetUserByExternalId(id);
                 pomodoro.UserId = currentsUser.Id;
 
-                _repository.Pomodoro.CreatePomodoro(pomodoro);
+                await _repository.Pomodoro.CreatePomodoro(pomodoro);
 
                 await _repository.SaveAsync();
 

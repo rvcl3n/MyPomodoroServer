@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Linq.Expressions;
+using System.Threading.Tasks;
 
 namespace Repository
 {
@@ -13,32 +14,38 @@ namespace Repository
 
         public RepositoryBase(RepositoryContext repositoryContext)
         {
-            this.RepositoryContext = repositoryContext;
+            RepositoryContext = repositoryContext;
         }
 
         public IQueryable<T> FindAll()
         {
-            return this.RepositoryContext.Set<T>().AsNoTracking();
+            return RepositoryContext.Set<T>().AsNoTracking();
         }
 
         public IQueryable<T> FindByCondition(Expression<Func<T, bool>> expression)
         {
-            return this.RepositoryContext.Set<T>().Where(expression).AsNoTracking();
+            return RepositoryContext.Set<T>().Where(expression).AsNoTracking();
         }
 
-        public void Create(T entity)
+        public Task Create(T entity)
         {
-            this.RepositoryContext.Set<T>().Add(entity);
+            return Task.Run(() => {
+                RepositoryContext.Set<T>().Add(entity);
+            });
         }
 
-        public void Update(T entity)
+        public Task Update(T entity)
         {
-            this.RepositoryContext.Set<T>().Update(entity);
+            return Task.Run(() => {
+                RepositoryContext.Set<T>().Update(entity);
+            });
         }
 
-        public void Delete(T entity)
+        public Task Delete(T entity)
         {
-            this.RepositoryContext.Set<T>().Remove(entity);
+            return Task.Run(() => {
+                RepositoryContext.Set<T>().Remove(entity);
+            });
         }
     }
 }
