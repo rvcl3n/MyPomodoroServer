@@ -18,11 +18,11 @@ namespace UnitTests
         [TestMethod]
         public void GetAllPomodoros_TestMethod()
         {         
-            var options = new DbContextOptionsBuilder<RepositoryContext>()
+            var options = new DbContextOptionsBuilder<RepositoryContextForTesting>()
             .UseInMemoryDatabase(databaseName: "MyPomodoroDatabase")
             .Options;
 
-            using (var context = new RepositoryContext(options))
+            using (var context = new RepositoryContextForTesting(options))
             {
                 context.Pomodoros.Add(new Pomodoro()
                 {
@@ -48,7 +48,7 @@ namespace UnitTests
                 context.SaveChangesAsync();
             }
 
-            using (var context = new RepositoryContext(options))
+            using (var context = new RepositoryContextForTesting(options))
             {
                 var pomodoroRepository = new PomodoroRepository(context);
                 List<Pomodoro> pomodoros = pomodoroRepository.GetAllPomodoros().Result.ToList();
