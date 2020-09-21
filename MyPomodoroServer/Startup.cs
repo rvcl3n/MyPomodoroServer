@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using AutoMapper;
 using Contracts;
 using Entities;
@@ -31,9 +31,6 @@ namespace MyPomodoroServer
         // For more information on how to configure your application, visit https://go.microsoft.com/fwlink/?LinkID=398940
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc(options => options.EnableEndpointRouting = false);
-
-
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy",
@@ -98,7 +95,17 @@ namespace MyPomodoroServer
 
             app.UseStaticFiles();
 
-            app.UseMvc();
+            app.UseRouting();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllerRoute(
+                    name: "pomodoro",
+                    pattern: "{controller=Pomodoro}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute(
+                    name: "user",
+                    pattern: "{controller=User}/{action=Index}/{id?}");
+            });
         }
     }
 }
