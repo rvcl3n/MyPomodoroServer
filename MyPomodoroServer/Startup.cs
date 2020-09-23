@@ -99,12 +99,7 @@ namespace MyPomodoroServer
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "pomodoro",
-                    pattern: "{controller=Pomodoro}/{action=Index}/{id?}");
-                endpoints.MapControllerRoute(
-                    name: "user",
-                    pattern: "{controller=User}/{action=Index}/{id?}");
+                endpoints.MapControllers();
             });
         }
     }
